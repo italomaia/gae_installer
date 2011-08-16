@@ -47,13 +47,17 @@ def unzip_stream(stream, dpath):
 	return path.join(dpath, "/google_appengine/")
 
 def check_permissions():
-	if not os.access("/opt/", os.W_OK):
-		print "Your user must have write permissions for folder '/opt/' in order to proceed."
-		print " - exit -"
-		exit(0)
+	def check_permission(folder):
+		if not os.access(folder, os.W_OK):
+			print "Your user must have write permissions for folder '%s' in order to proceed." % folder
+			print " - exit -"
+			exit(0)
+	check_permission("/opt/")
+	check_permission("/usr/bin/")
 
 def install_gae_from_path(unziped_gae_path):
-	pass
+	shutil.copy("dev_appserver.sh", "/usr/bin/dev_appserver")
+	shutil.copy("appcfg.sh", "/usr/bin/appcfg")
 
 def main(args):
 	check_permissions()
